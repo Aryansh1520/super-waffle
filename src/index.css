@@ -1,13 +1,142 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+:root{
+  --PrimaryColor:#189fc4;
+  --SecondaryColor:#0d55ca;
+  --gradientColor:linear-gradient(274.12deg, #64E3C8 -4.28%, #7AE49D 98.45%);
+  --whiteColor:#fff;
+  --textColor:#454955;
+--blackColor:#000;
+--greyText:#B5B5B5;
+--inputColor:#454955;
+--bodyColor:rgb(240,240,246);
+--cardBG:rgb(225,225,225);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+.instructions {
+  font-size: 0.75rem;
+  border-radius: 0.5rem;
+  background: #000;
+  color: #fff;
+  padding: 0.25rem;
+  position: relative;
+  bottom: -10px;
+}
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.hide {
+  display: none;
+}
+
+.valid {
+  color: limegreen;
+  margin-left: 0.25rem;
+}
+
+.invalid {
+  color: red;
+  margin-left: 0.25rem;
+}
+
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.line {
+  display: inline-block;
+}
+
+
+section {
+  
+  width: 100%;
+  max-width: 420px;
+  min-height: 400px;
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  /* align-items: center; */
+  margin-top: 3em;
+  margin-bottom: 7em;
+  margin-left:40%;
+  padding: 1rem;
+  background-color: rgba(0,0,0,0.4);
+}
+.inner-sec
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color:var(--PrimaryColor);
+}
+.log-form {
+  color: #dcdcdc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  flex-grow: 1;
+  padding-bottom:5px;
+}
+
+a, a:visited {
+  color: #fff;
+}
+
+input[type="text"],
+input[type="password"],
+textarea {
+font-family: 'Nunito', sans-serif;
+font-size: 18px;
+padding: 0.25rem;
+color:var(--inputColor) ;
+border-radius: 6px;
+border: none;
+/* border-radius: 0.5rem; */
+}
+
+.Login-head{
+font-weight: 500;
+font-size:24px;
+color: var(--whiteColor);
+font-family:Arial, Helvetica, sans-serif;
+}
+.Last-sign{
+  padding-left: 2.3em;
+}
+.login-but{
+  border: none;
+  border-radius: 0%;
+  margin-top: 1em;
+  
+  font-size: medium;
+  font-weight: 700;
+  
+}
+.after-log-in
+{
+ align-items: center;
+ background-color: var(--PrimaryColor);
+  
+}
+.after-log-in-head
+{
+  color: var(--whiteColor);
+
+}
+.otp-but{
+background-color:var(--inputColor);
+margin-top: 10px;
+margin-bottom: 20px;
 }
