@@ -76,4 +76,8 @@
   .nav__right {
     display: none;
   }
+
+  .active__menu {
+    display: block;
+  }
 }
