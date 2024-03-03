@@ -73,7 +73,7 @@ function findParkingSpaces(lat, lng) {
     });
 }
 
-const Oome = () => {
+const Home = () => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
@@ -209,4 +209,4 @@ const Oome = () => {
   );
 };
 
-export default Oome;
+export default Home;
