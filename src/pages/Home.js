@@ -21,17 +21,22 @@ import {
 } from "@react-google-maps/api";
 import { useRef, useState } from "react";
 
-const center = { lat: 19.295549695930685, lng: 72.86792628283874 };
+const center = {};
+
+function setCenter(latitude, longitude){ 
+  center['lat']=latitude;
+  center['lng']=longitude;
+}
 
 const showCurrentLocation = () => {
-  console.log("here");
   if (navigator.geolocation) {
     // Get the current position of the user
     navigator.geolocation.getCurrentPosition(
       (position) => {
         var lat1 = position.coords.latitude;
         var lng1 = position.coords.longitude;
-        console.log(lat1, lng1);
+        setCenter(lat1, lng1)
+        console.log('center:', center);
         return;
       },
       (error) => {
@@ -72,6 +77,8 @@ function findParkingSpaces(lat, lng) {
       console.log(error);
     });
 }
+
+showCurrentLocation()
 
 const Home = () => {
   const { isLoaded } = useJsApiLoader({
