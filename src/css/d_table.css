@@ -1,0 +1,90 @@
+.table-container {
+    overflow-y: auto;
+    max-height: 800px;
+    z-index: 1000;
+
+    position: relative;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .parking_spaces {
+    width: 45%;
+    border-collapse: separate;
+    
+    border-spacing: 0;
+    border-radius: 10px;
+    margin: 15px;
+
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4b0082, #800080); /* Adjusted to darker shades of purple */
+    color: #f3f3f3;
+    float: left;
+  }
+  
+  .parking_spaces th,
+  .parking_spaces td {
+    border: 1px solid #4a4a4a;
+    padding: 8px;
+  }
+  
+  .parking_spaces th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    top: 0;
+    background-color: #6c5b7b;
+    color: white;
+    position: sticky;
+  }
+  
+  /* Add these lines to apply border-radius only to the corners of the table */
+  .parking_spaces tr:first-child th:first-child {
+    border-top-left-radius: 10px;
+  }
+  
+  .parking_spaces tr:first-child th:last-child {
+    border-top-right-radius: 10px;
+  }
+  
+  .parking_spaces tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+  }
+  
+  .parking_spaces tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+  }
+  
+  .parking_spaces tr:nth-child(even) {
+    background-color: #3c3c3c;
+  }
+  
+  .parking_spaces tr:hover {
+    background-color: #6c5b7b;
+    color: white;
+  }
+  
+  .table-button {
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+  }
+  
+  .table-name {
+    font-size: 1.5em;
+  }
+  
+  .table-address {
+    font-size: 1em;
+  }

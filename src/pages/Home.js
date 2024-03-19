@@ -1,4 +1,7 @@
 import React from "react";
+
+
+import {showCurrentLocation,findParkingSpaces} from "../api/mapdata.js";
 import {
   Box,
   Button,
@@ -19,68 +22,33 @@ import {
   Autocomplete,
   DirectionsRenderer,
 } from "@react-google-maps/api";
-import { useRef, useState } from "react";
+import { useEffect,useRef, useState } from "react";
+import Table1 from '../components/dyn_tab'
 
-const center = {};
 
-function setCenter(latitude, longitude){ 
-  center['lat']=latitude;
-  center['lng']=longitude;
-}
 
-const showCurrentLocation = () => {
-  if (navigator.geolocation) {
-    // Get the current position of the user
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        var lat1 = position.coords.latitude;
-        var lng1 = position.coords.longitude;
-        setCenter(lat1, lng1)
-        console.log('center:', center);
-        return;
-      },
-      (error) => {
-        // Handle any errors
-        console.log(error);
-      }
-    );
-  } else {
-    // Display a message if the geolocation API is not supported
-    alert("Geolocation is not supported by this browser.");
-  }
-};
-
-function findParkingSpaces(lat, lng) {
-  // Create an empty array to store the results
-  let parkingSpaces = [];
-  // Make a request to the Google Maps Places API with the nearbysearch parameter
-  fetch(
-    `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=1500&type=public+parking+corporation+near+me&key=AIzaSyAO3GoOjZBzRIM359y4BVxkxr5NINamDxE`
-  )
-    .then((response) => response.json()) // Parse the response as JSON
-    .then((data) => {
-      // Loop through the results and push each parking space to the array
-      for (let item of data.results) {
-        parkingSpaces.push({
-          name: item.name, // The name of the parking space
-          address: item.vicinity, // The address of the parking space
-          distance: item.distance, // The distance from the coordinates in meters
-          //availability: item.opening_hours.open_now, // The availability of the parking space
-        });
-      }
-      console.log(parkingSpaces);
-      // Return the array of parking spaces
-      return parkingSpaces;
-    })
-    .catch((error) => {
-      // Handle any errors
-      console.log(error);
-    });
-}
-
-showCurrentLocation()
 
 const Home = () => {
+  const [data, setData] = useState([]); // state variable to store fetched data
+  const [showTable, setShowTable] = useState(false); // state variable to control visibility of DataTable
+
+
+
+  const [center, setCenter] = useState();
+
+  useEffect(() => {
+    async function getCurrentLocation() {
+      try {
+        const location = await showCurrentLocation();
+        console.log('here', location);
+        setCenter(location);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getCurrentLocation();
+  }, []);
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
@@ -96,7 +64,8 @@ const Home = () => {
   /** @type React.MutableRefObject<HTMLInputElement> */
   const destiantionRef = useRef();
 
-  if (!isLoaded) {
+  if (!isLoaded || !center ) {
+
     return <SkeletonText />;
   }
 
@@ -121,10 +90,13 @@ const Home = () => {
     var dura_for_api = results.routes[0].legs[0].duration.text;
     console.log(dist_for_api, dura_for_api);
   }
-  function on_click_calc() {
+  async function on_click_calc() {
     calculateRoute();
     showCurrentLocation();
-    findParkingSpaces(18.648061, 73.7595417);
+    const fetchedData = await findParkingSpaces(18.648061, 73.7595417); // add await here
+    //console.log("haine?",fetchedData);
+    setData(fetchedData);
+    setShowTable(true);
   }
   function clearRoute() {
     setDirectionsResponse(null);
@@ -136,32 +108,40 @@ const Home = () => {
 
   return (
     <Flex
-      position="relative"
-      flexDirection="column"
-      alignItems="center"
-      h="100vh"
-      w="100vw"
-    >
-      <Box position="absolute" left={0} top={0} h="100%" w="100%">
-        {/* Google Map Box */}
-        <GoogleMap
-          center={center}
-          zoom={15}
-          mapContainerStyle={{ width: "100%", height: "100%" }}
-          options={{
-            zoomControl: false,
-            streetViewControl: false,
-            mapTypeControl: false,
-            fullscreenControl: false,
-          }}
-          onLoad={(map) => setMap(map)}
-        >
-          <Marker position={center} />
-          {directionsResponse && (
-            <DirectionsRenderer directions={directionsResponse} />
-          )}
-        </GoogleMap>
-      </Box>
+    position="relative"
+    flexDirection="column"
+    alignItems="center"
+    h="100vh"
+    w="100vw"
+  >
+
+
+    <Box position="absolute" left={0} top={0} h="100%" w="100%">
+                {showTable && (
+  <Box position="absolute" zIndex="100">
+    <Table1 data={data} />
+  </Box>
+)}
+      {/* Google Map Box */}
+      <GoogleMap
+      
+        center={center}
+        zoom={15}
+        mapContainerStyle={{ width: "100%", height: "100%" }}
+        options={{
+          zoomControl: false,
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+        }}
+        onLoad={(map) => setMap(map)}
+      >
+        <Marker position={center} />
+        {directionsResponse && (
+          <DirectionsRenderer directions={directionsResponse} />
+        )}
+      </GoogleMap>
+    </Box>
       <Box
         p={4}
         borderRadius="lg"
@@ -212,6 +192,7 @@ const Home = () => {
           />
         </HStack>
       </Box>
+
     </Flex>
   );
 };
