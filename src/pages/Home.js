@@ -29,7 +29,7 @@ import Table1 from '../components/dyn_tab'
 
 
 const Home = () => {
-  const [data, setData] = useState([]); // state variable to store fetched data
+  const [data, setData] = useState(null); // state variable to store fetched data
   const [showTable, setShowTable] = useState(false); // state variable to control visibility of DataTable
 
 
@@ -42,6 +42,9 @@ const Home = () => {
         const location = await showCurrentLocation();
         console.log('here', location);
         setCenter(location);
+        const fetchedData = await findParkingSpaces(18.648061, 73.7595417); // add await here
+        console.log("haine?",fetchedData);
+        setData(fetchedData);
       } catch (error) {
         console.error(error);
       }
@@ -49,6 +52,9 @@ const Home = () => {
 
     getCurrentLocation();
   }, []);
+
+
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
@@ -69,33 +75,10 @@ const Home = () => {
     return <SkeletonText />;
   }
 
-  async function calculateRoute() {
-    console.log("Calculating");
-    if (originRef.current.value === "" || destiantionRef.current.value === "") {
-      return;
-    }
-    // eslint-disable-next-line no-undef
-    const directionsService = new google.maps.DirectionsService();
-    const results = await directionsService.route({
-      origin: originRef.current.value,
-      destination: destiantionRef.current.value,
-      // eslint-disable-next-line no-undef
-      travelMode: google.maps.TravelMode.DRIVING,
-    });
-    setDirectionsResponse(results);
-    setDistance(results.routes[0].legs[0].distance.text);
-    setDuration(results.routes[0].legs[0].duration.text);
 
-    var dist_for_api = results.routes[0].legs[0].distance.text;
-    var dura_for_api = results.routes[0].legs[0].duration.text;
-    console.log(dist_for_api, dura_for_api);
-  }
   async function on_click_calc() {
-    calculateRoute();
+
     showCurrentLocation();
-    const fetchedData = await findParkingSpaces(18.648061, 73.7595417); // add await here
-    //console.log("haine?",fetchedData);
-    setData(fetchedData);
     setShowTable(true);
   }
   function clearRoute() {
@@ -117,10 +100,11 @@ const Home = () => {
 
 
     <Box position="absolute" left={0} top={0} h="100%" w="100%">
-                {showTable && (
+                {(showTable) && (
   <Box position="absolute" zIndex="100">
     <Table1 data={data} />
   </Box>
+
 )}
       {/* Google Map Box */}
       <GoogleMap
@@ -148,28 +132,16 @@ const Home = () => {
         m={4}
         bgColor="white"
         shadow="base"
-        minW="container.md"
+        minW="10px"
         zIndex="1"
       >
         <HStack spacing={2} justifyContent="space-between">
-          <Box flexGrow={1}>
-            <Autocomplete>
-              <Input type="text" placeholder="Origin" ref={originRef} />
-            </Autocomplete>
-          </Box>
-          <Box flexGrow={1}>
-            <Autocomplete>
-              <Input
-                type="text"
-                placeholder="Destination"
-                ref={destiantionRef}
-              />
-            </Autocomplete>
-          </Box>
+ 
+
 
           <ButtonGroup>
             <Button colorScheme="pink" type="submit" onClick={on_click_calc}>
-              Calculate Route
+              Find Parking
             </Button>
             <IconButton
               aria-label="center back"
@@ -178,19 +150,7 @@ const Home = () => {
             />
           </ButtonGroup>
         </HStack>
-        <HStack spacing={4} mt={4} justifyContent="space-between">
-          <Text>Distance: {distance} </Text>
-          <Text>Duration: {duration} </Text>
-          <IconButton
-            aria-label="center back"
-            icon={<FaLocationArrow />}
-            isRound
-            onClick={() => {
-              map.panTo(center);
-              map.setZoom(15);
-            }}
-          />
-        </HStack>
+
       </Box>
 
     </Flex>

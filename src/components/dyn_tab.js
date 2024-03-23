@@ -12,7 +12,7 @@ function Table1({ data }) {
         <thead>
           <tr>
             <th>Details</th>
-            <th></th>
+            <th>Duration and Distance</th>
           </tr>
         </thead>
         <tbody>
@@ -24,7 +24,10 @@ function Table1({ data }) {
                   <div className='table-address'>{item.address}</div>
                 </button>
               </td>
-              <td></td>
+              <td>
+                <div className='table-duration'>{item.duration}</div>
+                <div className='table-distance'>{item.distance}</div>
+              </td>
             </tr>
           ))}
         </tbody>
