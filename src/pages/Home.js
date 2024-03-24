@@ -1,41 +1,22 @@
-import React from "react";
-
-
-import {showCurrentLocation,findParkingSpaces} from "../api/mapdata.js";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Flex,
-  HStack,
-  IconButton,
-  Input,
-  SkeletonText,
-  Text,
-} from "@chakra-ui/react";
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import LocationContext from '../components/LocationContext.js';
+import { showCurrentLocation, findParkingSpaces } from "../api/mapdata.js";
+import { Box, Button, ButtonGroup, Flex, HStack, IconButton, SkeletonText } from "@chakra-ui/react";
 import { FaLocationArrow, FaTimes } from "react-icons/fa";
-
-import {
-  useJsApiLoader,
-  GoogleMap,
-  Marker,
-  Autocomplete,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
-import { useEffect,useRef, useState } from "react";
+import { useJsApiLoader, GoogleMap, Marker, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 import Table1 from '../components/dyn_tab'
-
 
 
 
 const Home = () => {
   const [data, setData] = useState(null); // state variable to store fetched data
   const [showTable, setShowTable] = useState(false); // state variable to control visibility of DataTable
-
-
-
+  const {destination} = useContext(LocationContext);
   const [center, setCenter] = useState();
+  const [response, setResponse] = useState(null);
 
+
+  
   useEffect(() => {
     async function getCurrentLocation() {
       try {
@@ -52,6 +33,7 @@ const Home = () => {
 
     getCurrentLocation();
   }, []);
+
 
 
 
@@ -121,9 +103,32 @@ const Home = () => {
         onLoad={(map) => setMap(map)}
       >
         <Marker position={center} />
-        {directionsResponse && (
-          <DirectionsRenderer directions={directionsResponse} />
-        )}
+        {destination && (
+
+          <DirectionsService
+  // required: start and end coordinates
+  options={{
+    destination: { lat: destination.latitude, lng: destination.longitude },
+    origin: { lat: destination.user_latitude, lng: destination.user_longitude },
+    travelMode: 'DRIVING'
+  }}
+  // required: callback function to capture the results
+  callback={(result, status) => {
+    if (status === 'OK'&& JSON.stringify(result) !== JSON.stringify(response)) {
+      setResponse(result);
+    }
+  }}
+/>
+      )}
+
+{response && (
+  <DirectionsRenderer
+    // required: response from DirectionsService
+    options={{
+      directions: response
+    }}
+  />
+)}
       </GoogleMap>
     </Box>
       <Box

@@ -6,7 +6,9 @@
     position: relative;
   }
   
-
+  .fare-column {
+    width: 100px; /* Adjust this value to your liking */
+  }
   .parking_spaces {
     width: 100%;
     border-collapse: separate;
