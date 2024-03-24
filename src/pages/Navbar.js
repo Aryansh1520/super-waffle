@@ -2,28 +2,24 @@ import React from 'react'
 
 function Navbar() {
   return (
-    <div>
+    <div className='navbar'>
         <ul>
             <li>
-                <a href= "#login">
+                <a href= "/login">
                     Login
                 </a>
             </li>
 
+           
+
             <li>
-                <a href= "#faq">
-                    FAQ's
+                <a href= "/maps">
+                   Map
                 </a>
             </li>
 
             <li>
-                <a href= "#about">
-                    About Us
-                </a>
-            </li>
-
-            <li>
-                <a href= "#home">
+                <a href= "/">
                    Home
                 </a>
             </li>

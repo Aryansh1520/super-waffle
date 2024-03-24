@@ -12,7 +12,8 @@ function App() {
     <Router>
     <Routes>
         {/* Define your routes using 'Route' components */}
-        <Route path="/" element={<Gmap />} />
+        <Route path="/" element={<Landing />} />
+        {/* <Route path="/" element={<Gmap />} /> */}
         <Route path="/maps" element={<Gmap />} />
         <Route path="/register" element={<Register />} />
         <Route exact path="/login" element={<Login />} />

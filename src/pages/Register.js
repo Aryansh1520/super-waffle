@@ -7,8 +7,8 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-const REGISTER_URL = "http://localhost:8081/signup";
+import Navbar from "./Navbar";
+const REGISTER_URL = "http://localhost:8081/register";
 
 const Register = () => {
   const userRef = useRef();
@@ -87,12 +87,14 @@ const Register = () => {
   };
 
   return (
+   
     <>
+       <Navbar />
       {success ? (
         <section>
-          <h1>Success!</h1>
+          <h1 className="success-login">Success!</h1>
           <p>
-            <Link to="#">Sign In</Link>
+            <Link to="/login">Sign In</Link>
           </p>
         </section>
       ) : (
