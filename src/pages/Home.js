@@ -42,7 +42,7 @@ const Home = () => {
         const location = await showCurrentLocation();
         console.log('here', location);
         setCenter(location);
-        const fetchedData = await findParkingSpaces(18.648061, 73.7595417); // add await here
+        const fetchedData = await findParkingSpaces(location.lat,location.lng); // add await here
         console.log("haine?",fetchedData);
         setData(fetchedData);
       } catch (error) {
