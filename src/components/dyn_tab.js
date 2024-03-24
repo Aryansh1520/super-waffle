@@ -1,5 +1,5 @@
 
-import '/home/aryan/Desktop/super-waffle/src/css/d_table.css';
+import '../css/d_table.css';
 import React, { useContext } from 'react';
 import LocationContext from '../components/LocationContext';
 

@@ -5,7 +5,7 @@ import { Box, Button, ButtonGroup, Flex, HStack, IconButton, SkeletonText } from
 import { FaLocationArrow, FaTimes } from "react-icons/fa";
 import { useJsApiLoader, GoogleMap, Marker, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 import Table1 from '../components/dyn_tab'
-
+import Navbar from './Navbar.js';
 
 
 const Home = () => {
@@ -72,6 +72,7 @@ const Home = () => {
   }
 
   return (
+   
     <Flex
     position="relative"
     flexDirection="column"
@@ -88,6 +89,7 @@ const Home = () => {
   </Box>
 
 )}
+ <Navbar />
       {/* Google Map Box */}
       <GoogleMap
       
@@ -139,12 +141,13 @@ const Home = () => {
         shadow="base"
         minW="10px"
         zIndex="1"
+        className='parking-box'
       >
         <HStack spacing={2} justifyContent="space-between">
  
 
 
-          <ButtonGroup>
+          <ButtonGroup className='parking-finder'>
             <Button colorScheme="pink" type="submit" onClick={on_click_calc}>
               Find Parking
             </Button>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 // const LOGIN_URL = '/auth';
 import AuthContext from "../context/AuthProvider";
 import axios from "axios";
+import Navbar from "./Navbar";
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
   const userRef = useRef();
@@ -30,7 +31,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/signup",
+        "http://localhost:8081/register",
         JSON.stringify({ user, pwd }),
         {
           headers: { "Content-Type": "application/json" },
@@ -60,8 +61,11 @@ const Login = () => {
   };
 
   return (
+    
     <>
+     <Navbar />
       {success ? (
+        
         <section className="after-log-in">
           <h1 className="after-log-in-head">Login Successful !</h1>
           <br />
